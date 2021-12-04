@@ -6,7 +6,7 @@ import "../styles/Admin.css";
 import Order from "./Order";
 import { States } from "../data/states";
 
-const AddStore = ({ setStoreID, setInventoryID }) => {
+const AddStore = () => {
   const [lng, setLng] = useState(85.80884255117307);
   const [lat, setLat] = useState(20.33);
   const [name, setName] = useState(null);
@@ -64,7 +64,6 @@ const AddStore = ({ setStoreID, setInventoryID }) => {
     let storeID = await axios
       .post("https://localmart-api.herokuapp.com/api/store", store_data)
       .then((res) => {
-        setStoreID(res.data.id);
         localStorage.setItem("storeID", res.data.id);
         return res.data.id;
       });
@@ -77,7 +76,6 @@ const AddStore = ({ setStoreID, setInventoryID }) => {
       .post("https://localmart-api.herokuapp.com/api/inventory", inventory_data)
       .then((res) => {
         console.log(res);
-        setInventoryID(res.data.id);
         localStorage.setItem("inventoryID", res.data.id);
         navigate("../product-management");
       });
