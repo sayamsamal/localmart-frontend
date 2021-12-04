@@ -19,7 +19,9 @@ function App() {
         <Route path="add-store" element={<AddStore />} />
         <Route path="product-management" element={<ProductMangement />} />
       </Route>
-      <Route path="user" element={<User />} />
+      <Route path="user" element={<User />}>
+        <Route path="store/:id" element={<AddStore />} />
+      </Route>
     </Routes>
   );
 }

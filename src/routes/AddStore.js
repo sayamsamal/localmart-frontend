@@ -14,7 +14,7 @@ const AddStore = () => {
   const [address, setAddress] = useState(null);
   const [city, setCity] = useState(null);
   const [postal, setPostal] = useState(null);
-  const [state, setState] = useState(null);
+  const [state, setState] = useState();
 
   let navigate = useNavigate();
 
@@ -151,11 +151,12 @@ const AddStore = () => {
             <select
               class="form-select"
               aria-label="Select State"
+              value={state}
               onChange={(e) => setState(e.target.value)}
             >
               {States.map((state) => {
                 return (
-                  <option value={state} key={state}>
+                  <option value={state.name} key={state.name}>
                     {state.name}
                   </option>
                 );

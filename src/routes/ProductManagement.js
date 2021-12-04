@@ -6,7 +6,7 @@ export default function ProductManagement() {
   const [prodName, setProdName] = useState("");
   const [storeName, setStoreName] = useState("");
   const [price, setPrice] = useState();
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     let inventoryID = localStorage.getItem("inventoryID");
@@ -69,13 +69,12 @@ export default function ProductManagement() {
         <div class="col-md-8">Product Name</div>
         <div class="col-md-2">Price</div>
       </div>
-
       {products.map((product) => {
         return (
           <div key={product.id}>
             <div class="row g-3 mt-5">
               <div class="col-md-8">{product.product_name}</div>
-              <div class="col-md-2">{product.product_price}</div>
+              <div class="col-md-2">{product.product_price / 100}</div>
             </div>
           </div>
         );
