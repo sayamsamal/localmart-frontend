@@ -80,22 +80,13 @@ export default function ProductManagement() {
         );
       })}
 
-      <div
-        className="fixed-bottom p-4 primary"
-        style={{ backgroundColor: "#2D2D2D" }}
-      >
+      <div className="sticky-bottom mt-5 primary">
         <form
           class="row g-3"
           onSubmit={(e) => {
             handleAddProduct(e);
           }}
         >
-          {/* <label for="addproduct" class="form-label">
-          Add Product
-        </label> */}
-          <div class="col-12" style={{ color: "white" }}>
-            Add Products
-          </div>
           <div class="col-sm-12 col-md-8">
             <input
               type="text"

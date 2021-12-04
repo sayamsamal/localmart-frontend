@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function NavBar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">
           LocalMart
@@ -21,9 +21,9 @@ export default function NavBar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
+              <Link to="user" className="nav-link">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
               <Link to="admin" className="nav-link">
@@ -36,7 +36,7 @@ export default function NavBar() {
               </Link>
             </li>
             <li className="nav-item dropdown">
-              <a
+              {/* <a
                 className="nav-link dropdown-toggle"
                 href="#"
                 id="navbarDropdown"
@@ -45,8 +45,8 @@ export default function NavBar() {
                 aria-expanded="false"
               >
                 Dropdown
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+              </a> */}
+              {/* <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
                   <a className="dropdown-item" href="#">
                     Action
@@ -65,9 +65,9 @@ export default function NavBar() {
                     Something else here
                   </a>
                 </li>
-              </ul>
+              </ul> */}
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a
                 className="nav-link disabled"
                 href="#"
@@ -76,9 +76,9 @@ export default function NavBar() {
               >
                 Disabled
               </a>
-            </li>
+            </li> */}
           </ul>
-          <form className="d-flex">
+          {/* <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
@@ -88,7 +88,7 @@ export default function NavBar() {
             <button className="btn btn-outline-success" type="submit">
               Search
             </button>
-          </form>
+          </form> */}
         </div>
       </div>
     </nav>

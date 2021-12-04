@@ -54,7 +54,6 @@ export default function BuyStore() {
 
   return (
     <div>
-      <Link to="../user">Back</Link>
       <h1 className="text-center">{storeName}</h1>
       <div className="container">
         {inventory.map((p, index) => {

@@ -2,6 +2,7 @@ import "./App.css";
 
 import { Routes, Route } from "react-router-dom";
 import mapboxgl from "mapbox-gl";
+import { Link } from "react-router-dom";
 
 import Home from "./routes/Home";
 import Admin from "./routes/Admin";

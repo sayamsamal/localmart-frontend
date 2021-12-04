@@ -43,15 +43,56 @@ export default function StoresMap(props) {
     marker.addTo(map.current);
 
     map.current.addControl(geolocate);
+
+    map.current.on("load", () => {
+      map.current.addSource("places", {
+        type: "geojson",
+        data: storeList,
+      });
+    });
   });
+
+  const storeList = {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [-20.33245390817005, 85.80876978356315],
+        },
+        properties: {
+          id: "1829-2929-9872",
+          name: "A Grocery Store",
+          phone: "9857897653",
+          address: "VIM 234, Phase 6, Sailashree Vihar",
+          city: "Bhubaneswar",
+          postalCode: "751021",
+          state: "Odisha",
+        },
+      },
+      {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [-77.049766, 38.900772],
+        },
+        properties: {
+          id: "1829-2929-9873",
+          name: "B Grocery Store",
+          phone: "9857897875",
+          address: "VIM 204, Phase 6, Sailashree Vihar",
+          city: "Bhubaneswar",
+          postalCode: "751021",
+          state: "Odisha",
+        },
+      },
+    ],
+  };
 
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
     map.current.on("load", () => {
-      // map.current.addSource("places", {
-      //   type: "geojson",
-      //   data: props.storeList,
-      // });
       map.current.jumpTo({
         center: [props.longitude, props.latitude],
         zoom: 16,

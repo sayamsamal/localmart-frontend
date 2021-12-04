@@ -29,6 +29,7 @@ export default function User() {
       });
     const stores = data.Stores;
     const properties = data.Properties;
+
     setCards(
       properties.map((property, index) => {
         return (
@@ -40,9 +41,10 @@ export default function User() {
         );
       })
     );
+
     const geometry = data.Geometry;
 
-    const featureslist = stores.map((Store, index) => {
+    let featureslist = stores.map((Store, index) => {
       return {
         type: "Feature",
         geometry: geometry[index],
@@ -55,6 +57,7 @@ export default function User() {
       features: featureslist,
     };
     setStoreList(storesListData);
+    console.log(JSON.stringify(storesListData));
   }
 
   return (

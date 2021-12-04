@@ -5,22 +5,25 @@ import { Link, Outlet } from "react-router-dom";
 
 export default function Admin({ storeID, inventoryID }) {
   return (
-    <div>
-      <nav>
-        <Link to="add-store">Add Store</Link>
-        <Link to="product-management">Inventory</Link>
+    <div className="container">
+      <nav className="text-center">
+        <div className="row">
+          <div className="col">
+            <Link to="add-store" className="btn btn-primary w-100">
+              Add Store
+            </Link>
+          </div>
+
+          <div className="col">
+            <Link to="product-management" className="btn btn-primary w-100">
+              Inventory
+            </Link>
+          </div>
+        </div>
       </nav>
-      <div>
+      <div className="mt-5">
         <Outlet />
       </div>
-      <button
-        onClick={(e) => {
-          alert(storeID);
-          alert(inventoryID);
-        }}
-      >
-        Click me!
-      </button>
     </div>
   );
 }

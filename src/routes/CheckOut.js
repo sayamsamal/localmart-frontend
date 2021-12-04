@@ -2,8 +2,9 @@ import useRazorpay, { RazorpayOptions } from "react-razorpay";
 import { list, total } from "cart-localstorage";
 import axios from "axios";
 
+import img from "../images/localmart.png";
+
 export default function CheckOut() {
-  //   const [params, setParams] = useState(null);
   const Razorpay = useRazorpay();
 
   const verifyPayment = async (payment_id, payment_signature) => {
@@ -45,9 +46,9 @@ export default function CheckOut() {
       key: "rzp_test_exJ9gstv3NbI4x", // Enter the Key ID generated from the Dashboard
       amount: amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       currency: "INR",
-      name: "Sayam's Company",
+      name: "LocalMart",
       description: "Test Transaction",
-      image: "https://example.com/your_logo",
+      image: img,
       order_id: order_id, //This is a sample Order ID. Pass the `id` obtained in the response of createOrder().
       handler: function (response) {
         alert(response.razorpay_payment_id);
@@ -56,15 +57,15 @@ export default function CheckOut() {
         console.log(response);
       },
       prefill: {
-        name: "Sayam Samal",
-        email: "samal.sayam@gmail.com",
-        contact: "7978455517",
+        name: "Test User",
+        email: "something@gmail.com",
+        contact: "+919876728394",
       },
       notes: {
         address: "Razorpay Corporate Office",
       },
       theme: {
-        color: "#3399cc",
+        color: "#3a3f44",
       },
     };
 
@@ -85,6 +86,12 @@ export default function CheckOut() {
 
   return (
     <div className="container">
+      <div className="row mt-5" style={{ color: "white" }}>
+        <div className="col-5">Product</div>
+        <div className="col-2">Quantity</div>
+        <div className="col-2">Price</div>
+        <div className="col-3">Amount</div>
+      </div>
       {list().map((product) => {
         return (
           <div key={product.id}>
@@ -101,7 +108,7 @@ export default function CheckOut() {
       })}
       <div className="row mt-5">
         <div className="col-5">Total</div>
-        <div className="col-5">{total()}</div>
+        <div className="col-5">{total() / 100}</div>
         <div className="col-2">
           <button className="btn btn-primary w-100" onClick={handlePayment}>
             Pay
