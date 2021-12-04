@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Map from "./Map";
 import "../styles/Admin.css";
 import Order from "./Order";
 import { States } from "../data/states";
 
-const Admin = () => {
+const AddStore = ({ setStoreID, setInventoryID }) => {
   const [lng, setLng] = useState(85.80884255117307);
   const [lat, setLat] = useState(20.33);
   const [name, setName] = useState(null);
@@ -14,6 +15,8 @@ const Admin = () => {
   const [city, setCity] = useState(null);
   const [postal, setPostal] = useState(null);
   const [state, setState] = useState(null);
+
+  let navigate = useNavigate();
 
   var prop_data = {
     store_name: name,
@@ -33,7 +36,7 @@ const Admin = () => {
 
     const [firstResponse, secondResponse] = await Promise.all([
       axios
-        .post("http://localhost:8000/api/prop", prop_data)
+        .post("https://localmart-api.herokuapp.com/api/prop", prop_data)
         .then((res) => {
           console.log(res.data.id);
           return res.data.id;
@@ -42,7 +45,7 @@ const Admin = () => {
           console.log(err);
         }),
       axios
-        .post("http://localhost:8000/api/geo", geo_data)
+        .post("https://localmart-api.herokuapp.com/api/geo", geo_data)
         .then((res) => {
           console.log(res.data.id);
           return res.data.id;
@@ -58,22 +61,37 @@ const Admin = () => {
     };
 
     console.log(store_data);
+    let storeID = await axios
+      .post("https://localmart-api.herokuapp.com/api/store", store_data)
+      .then((res) => {
+        setStoreID(res.data.id);
+        localStorage.setItem("storeID", res.data.id);
+        return res.data.id;
+      });
+
+    var inventory_data = {
+      store_id: storeID,
+    };
+
     await axios
-      .post("http://localhost:8000/api/store", store_data)
+      .post("https://localmart-api.herokuapp.com/api/inventory", inventory_data)
       .then((res) => {
         console.log(res);
+        setInventoryID(res.data.id);
+        localStorage.setItem("inventoryID", res.data.id);
+        navigate("../product-management");
       });
   }
 
   return (
-    <div className="admin">
-      <div>
+    <div className="store-add">
+      {/* <div>
         JSON Structure:
         <div style={{ textAlign: "left", marginLeft: "45%" }}>
           <pre>{JSON.stringify(prop_data, null, 2)}</pre>
           <pre>{JSON.stringify(geo_data, null, 2)}</pre>
         </div>
-      </div>
+      </div> */}
       <div className="container text-start">
         <form class="row g-3" onSubmit={(e) => handleSubmit(e)}>
           <div class="col-md-6">
@@ -132,7 +150,11 @@ const Admin = () => {
             <label for="state" class="form-label">
               State
             </label>
-            <select class="form-select" aria-label="Select State">
+            <select
+              class="form-select"
+              aria-label="Select State"
+              onChange={(e) => setState(e.target.value)}
+            >
               {States.map((state) => {
                 return (
                   <option value={state} key={state}>
@@ -177,7 +199,7 @@ const Admin = () => {
           </div>
           <div class="col-12">
             <button type="submit" class="btn btn-primary w-100">
-              Sign in
+              Add Store
             </button>
           </div>
         </form>
@@ -188,4 +210,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default AddStore;

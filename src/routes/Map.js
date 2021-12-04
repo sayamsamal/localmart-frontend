@@ -66,9 +66,9 @@ export default function Map(props) {
 
   return (
     <div>
-      <div className="sidebar">
+      {/* <div className="sidebar">
         Longitude: {props.longitude} | Latitude: {props.latitude} | Zoom: {zoom}
-      </div>
+      </div> */}
       <div ref={mapContainer} className="map-container" />
     </div>
   );
