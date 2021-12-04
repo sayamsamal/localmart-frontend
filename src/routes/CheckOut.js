@@ -1,7 +1,8 @@
 import useRazorpay, { RazorpayOptions } from "react-razorpay";
+import { list, total } from "cart-localstorage";
 import axios from "axios";
 
-export default function Order() {
+export default function CheckOut() {
   //   const [params, setParams] = useState(null);
   const Razorpay = useRazorpay();
 
@@ -16,29 +17,38 @@ export default function Order() {
     return response.data;
   };
 
-  const createOrder = async (params) => {
-    const order = {
-      amount: 10000,
-    };
-    const order_id = axios
-      .post("https://localmart-api.herokuapp.com/api/payment")
+  const createOrder = async (orderData) => {
+    const order_id = await axios
+      .post("https://localmart-api.herokuapp.com/api/payment", orderData)
       .then((res) => {
         return res.data.id;
       });
     return order_id;
   };
 
-  const handlePayment = async (params) => {
-    // const order = await createOrder(params); //  Create order on your backend
+  const handlePayment = async () => {
+    const amount = total();
+    const items = list().map((item, key) => {
+      return item.id;
+    });
+    const storeID = localStorage.getItem("buyStoreID");
+
+    const orderData = {
+      amount: amount,
+      items: items,
+      store_id: storeID,
+    };
+
+    const order_id = await createOrder(orderData); //  Create order on your backend
 
     const options = {
       key: "rzp_test_exJ9gstv3NbI4x", // Enter the Key ID generated from the Dashboard
-      amount: "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      amount: amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       currency: "INR",
       name: "Sayam's Company",
       description: "Test Transaction",
       image: "https://example.com/your_logo",
-      order_id: "order_IT04tTbLs2v0LJ", //This is a sample Order ID. Pass the `id` obtained in the response of createOrder().
+      order_id: order_id, //This is a sample Order ID. Pass the `id` obtained in the response of createOrder().
       handler: function (response) {
         alert(response.razorpay_payment_id);
         alert(response.razorpay_order_id);
@@ -74,8 +84,30 @@ export default function Order() {
   };
 
   return (
-    <div>
-      <button onClick={() => handlePayment({ amount: 100 })}>Pay</button>
+    <div className="container">
+      {list().map((product) => {
+        return (
+          <div key={product.id}>
+            <div className="row mt-5">
+              <div className="col-5">{product.name}</div>
+              <div className="col-2">{product.quantity}</div>
+              <div className="col-2">{product.price / 100}</div>
+              <div className="col-3">
+                {(product.price / 100) * product.quantity}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+      <div className="row mt-5">
+        <div className="col-5">Total</div>
+        <div className="col-5">{total()}</div>
+        <div className="col-2">
+          <button className="btn btn-primary w-100" onClick={handlePayment}>
+            Pay
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

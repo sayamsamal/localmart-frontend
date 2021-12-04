@@ -3168,6 +3168,11 @@ capture-exit@^2.0.0:
   dependencies:
     rsvp "^4.8.4"
 
+cart-localstorage@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/cart-localstorage/-/cart-localstorage-1.1.5.tgz#7fdd0ef7cfdea113276a59b9e79a5826181acb4e"
+  integrity sha512-1LsiGklIV9bRj4qnT21HHMG6AGBzfH5Xu611H4FaNklx5Y7vq8vecKGMW9oxDpjoCga/NWAQ0mj/tYqfgTLqeg==
+
 case-sensitive-paths-webpack-plugin@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.3.0.tgz#23ac613cc9a856e4f88ff8bb73bbb5e989825cf7"

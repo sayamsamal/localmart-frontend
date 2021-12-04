@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import StoresMap from "./StoresMap";
 import StoresCard from "../components/StoresCard";
 import axios from "axios";
+import { destroy } from "cart-localstorage";
 
 export default function User() {
   const [lng, setLng] = useState(85.80884255117307);
@@ -15,32 +16,33 @@ export default function User() {
     let inventoryID = localStorage.getItem("inventoryID");
     let storeID = localStorage.getItem("storeID");
     fetchStores();
+    localStorage.removeItem("buyStoreID");
+    destroy();
   }, []);
 
   async function fetchStores() {
-    let data = await axios
+    const data = await axios
       .get("https://localmart-api.herokuapp.com/api/stores")
       .then((res) => {
         console.log(res.data);
         return res.data;
       });
-    let stores = data.Stores;
-    let properties = data.Properties;
+    const stores = data.Stores;
+    const properties = data.Properties;
     setCards(
       properties.map((property, index) => {
         return (
-          <Link to="">
-            <div className="col-6">
+          <div className="col-6">
+            <Link to={`/store/${stores[index].id}`}>
               <StoresCard details={property} />
-            </div>
-          </Link>
+            </Link>
+          </div>
         );
       })
     );
-    let geometry = data.Geometry;
+    const geometry = data.Geometry;
 
-    let featureslist = [];
-    featureslist = stores.map((Store, index) => {
+    const featureslist = stores.map((Store, index) => {
       return {
         type: "Feature",
         geometry: geometry[index],
@@ -48,7 +50,7 @@ export default function User() {
       };
     });
 
-    let storesListData = {
+    const storesListData = {
       type: "FeatureCollection",
       features: featureslist,
     };

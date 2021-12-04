@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Map from "./Map";
 import "../styles/Admin.css";
-import Order from "./Order";
+import CheckOut from "./CheckOut";
 import { States } from "../data/states";
 
 const AddStore = () => {
@@ -204,7 +204,6 @@ const AddStore = () => {
         </form>
       </div>
       <div>mapbox</div>
-      <Order />
     </div>
   );
 };
