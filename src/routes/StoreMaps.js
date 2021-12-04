@@ -1,9 +1,8 @@
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
-import StoreMaps from "./StoreMaps";
 import Stores from "../components/Stores";
 
-export default function User() {
+export default function StoreMaps() {
   useEffect(() => {
     let inventoryID = localStorage.getItem("inventoryID");
     let storeID = localStorage.getItem("storeID");

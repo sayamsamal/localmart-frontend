@@ -6,6 +6,7 @@ export default function ProductManagement() {
   const [prodName, setProdName] = useState("");
   const [storeName, setStoreName] = useState("");
   const [price, setPrice] = useState();
+  const [products, setProducts] = useState();
 
   useEffect(() => {
     let inventoryID = localStorage.getItem("inventoryID");
@@ -24,16 +25,19 @@ export default function ProductManagement() {
   }
 
   async function fetchProducts(inventoryID) {
-    await axios
+    let prodQuery = await axios
       .get(
         `https://localmart-api.herokuapp.com/api/inventory/products/${inventoryID}`
       )
       .then((res) => {
         console.log(res.data);
+        return res.data;
       });
+    setProducts(prodQuery);
+    window.scrollTo(0, document.body.scrollHeight);
   }
 
-  function handleAddProduct(e) {
+  async function handleAddProduct(e) {
     e.preventDefault();
     let productPriceinPaisa = Math.trunc(price * 100);
     let inventoryID = localStorage.getItem("inventoryID");
@@ -45,18 +49,19 @@ export default function ProductManagement() {
 
     console.log(prodDetails);
 
-    axios
+    await axios
       .post("https://localmart-api.herokuapp.com/api/product", prodDetails)
       .then((res) => {
         console.log(res.data);
+        fetchProducts(JSON.parse(inventoryID));
       });
 
     setProdName("");
-    setPrice(0);
+    setPrice("");
   }
 
   return (
-    <div className="container">
+    <div className="container mb-5">
       <h1 className="text-center">{storeName}</h1>
       <h2 className="display-6">Product Management</h2>
 
@@ -64,6 +69,17 @@ export default function ProductManagement() {
         <div class="col-md-8">Product Name</div>
         <div class="col-md-2">Price</div>
       </div>
+
+      {products.map((product) => {
+        return (
+          <div key={product.id}>
+            <div class="row g-3 mt-5">
+              <div class="col-md-8">{product.product_name}</div>
+              <div class="col-md-2">{product.product_price}</div>
+            </div>
+          </div>
+        );
+      })}
 
       <div
         className="fixed-bottom p-4 primary"
@@ -81,7 +97,7 @@ export default function ProductManagement() {
           <div class="col-12" style={{ color: "white" }}>
             Add Products
           </div>
-          <div class="col-md-8">
+          <div class="col-sm-12 col-md-8">
             <input
               type="text"
               class="form-control"
@@ -91,7 +107,7 @@ export default function ProductManagement() {
               onChange={(e) => setProdName(e.target.value)}
             />
           </div>
-          <div class="col-md-2">
+          <div class="col-8 col-md-2">
             <input
               type="number"
               step="0.01"
@@ -103,7 +119,7 @@ export default function ProductManagement() {
               onChange={(e) => setPrice(e.target.value)}
             />
           </div>
-          <div class="col-md-2">
+          <div class="col-4 col-md-2">
             <button type="submit" class="btn btn-primary w-100">
               Add
             </button>
